@@ -1,23 +1,3 @@
-location_map={
-    1: (0,0),
-    2: (0,1),
-    3: (0,2),
-    4: (1,0),
-    5: (1,1),
-    6: (1,2),
-    7: (2,0),
-    8: (2,1),
-    9: (2,2)
-    }
-
-def game_board(board):
-    board =[
-        ['1','2','3'],
-        ['4','5','6'],
-        ['7','8','9']
-    ]
-    return board
-
 def player_choice():
     while True:
         player_1 = input("Player 1's choice, are you an X or an O: ")
@@ -39,6 +19,10 @@ def player_choice():
                 continue
         else:
             continue
+    """
+    Ask them where they want to go and implement it. 
+    go to update board and have that check if the square is open
+    """
 
 
 def players_score(scores):
@@ -49,7 +33,7 @@ def players_score(scores):
 
 
 """
-def check_winner(board, scores,):
+def check_winner(board, scores):
     for row in board:
         if all row == X:
             return scores['Player 1 or 2'] += 1
@@ -57,5 +41,16 @@ def check_winner(board, scores,):
     for column in board:
         if all column == X:
             return scores['Player 1 or 2'] += 1
+
+    for digainl in board == x:
 """
-game_board(board=0)
+
+def main():
+    """ 
+    while loop
+    player_choice
+    update board
+    show board
+    check it won(break if won)
+    repeat
+    """
