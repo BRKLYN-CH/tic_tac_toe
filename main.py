@@ -9,26 +9,38 @@ different_board = [
     ["7","8","9"]
 ]
 
+scores = {'Player 1': 0, 'Player 2': 0}
+
+def player_scores(scores):
+    print(scores)
+
 def print_current_board():
     for row in range(len(game_board)):
-        for column in range(len(game_board)):
+        for column in range(len(game_board[row])):
             print(f"{game_board[row][column]:<5}", end = "")
         print("")
 
 def print_different_board():
     for row in range(len(different_board)):
-        for column in range(len(different_board)):
+        for column in range(len(different_board[row])):
             print(f"{different_board[row][column]:<5}", end = "")
         print("")
 
 def check_for_winner(game_board):
-    if game_board[0][0] == game_board[0][1] and game_board[0][1] == game_board[0][2]:
-        print("We have a winner!")
+    for i in range(3):
+        if game_board[i][0] == game_board[i][1] == game_board[i][2] != "-":
+            return True
+        if game_board[0][i] == game_board[1][i] == game_board[2][i] != "-":
+            return True
+    if game_board[0][0] == game_board[1][1] == game_board[2][2] != "-" or game_board[0][2] == game_board[1][1] == game_board[2][0] != "-":
+        return True
+    return False
 
-def players_score(scores):
-    scores = {'Player 1': 0, 'Player 2': 0}
-    scores['Player 1'] += 1
-    print(scores)
+def check_for_draw(game_board):
+    for row in game_board:
+        if "-" in row:
+            return False
+    return True
 
 def player_choice(game_board):
     print_current_board()
@@ -50,64 +62,54 @@ def player_choice(game_board):
 
     print_different_board()
 
-    while game_board[0][0] == "-" or game_board[0][1] == "-" or game_board[0][2] == "-" or game_board[1][0] == "-" or game_board[1][1] == "-" or game_board[1][2] == "-" or game_board[2][0] == "-" or game_board[2][1] == "-" or game_board[2][2] == "-":
-        
+    while not check_for_winner(game_board) and not check_for_draw(game_board):
         while True:
-            player_one_turn = int(input("Player 1, enter the number for the spot do you want to take: "))
-
-            if player_one_turn == 1 or player_one_turn == 2 or player_one_turn == 3:
-                p_1_row = 0
-            elif player_one_turn == 4 or player_one_turn == 5 or player_one_turn == 6:
-                p_1_row = 1
-            else:
-                p_1_row = 2
-            if player_one_turn == 1 or player_one_turn == 4 or player_one_turn == 7:
-                p_1_column = 0
-            elif player_one_turn == 2 or player_one_turn == 5 or player_one_turn == 8:
-                p_1_column = 1
-            else:
-                p_1_column = 2
-
-            if game_board[p_1_row][p_1_column] == "-":
-                game_board[p_1_row][p_1_column] = player_1
+            player_one = int(input("Player 1, enter the number for the spot you want: "))
+            row = (player_one - 1) // 3
+            column = (player_one - 1) % 3
+            if game_board[row][column] == "-":
+                game_board[row][column] = player_1
                 break
             else:
                 print("That spot is taken, try again:")
-                continue
 
         print_current_board()
 
+        if check_for_winner(game_board):
+            print("Player 1 wins!")
+            scores['Player 1'] += 1
+            return
+        if check_for_draw(game_board):
+            print("It's a draw!")
+            return
 
-        player_two_turn = int(input("Player 2, enter the number for the spot do you want to take: "))
-
-        if player_two_turn == 1 or player_two_turn == 2 or player_two_turn == 3:
-            p_2_row = 0
-        elif player_two_turn == 4 or player_two_turn == 5 or player_two_turn == 6:
-            p_2_row = 1
-        else:
-            p_2_row = 2
-        if player_two_turn == 1 or player_two_turn == 4 or player_two_turn == 7:
-            p_2_column = 0
-        elif player_two_turn == 2 or player_two_turn == 5 or player_two_turn == 8:
-            p_2_column = 1
-        else:
-            p_2_column = 2
-
-        if game_board[p_2_row][p_2_column] == "-":
-            game_board[p_2_row][p_2_column] = player_2
+        while True:
+            player_two = int(input("Player 2, enter the number for the spot you want: "))
+            row = (player_two - 1) // 3
+            column = (player_two - 1) % 3
+            if game_board[row][column] == "-":
+                game_board[row][column] = player_2
+                break
+            else:
+                print("That spot is taken, try again:")
 
         print_current_board()
+
+        if check_for_winner(game_board):
+            print("Player 2 wins!")
+            scores['Player 2'] += 1
+            return
+        if check_for_draw(game_board):
+            print("It's a draw!")
+            return
 
 def main():
-    """ 
-    while loop
-    player_choice
-    update board
-    show board
-    check it won(break if won)
-    repeat
-    """
     while True:
         player_choice(game_board)
-        if 
+        player_scores(scores)
+        for i in range(3):
+            for j in range(3):
+                game_board[i][j] = "-"
 
+if __name__ == "__main__":
+    main()
